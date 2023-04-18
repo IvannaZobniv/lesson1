@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 
-import { CreateUserDto } from './dto/users.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 import { PrismaService } from '../core/orm/prisma.service';
 
 @Injectable()
@@ -20,32 +20,36 @@ export class UsersService {
     });
   }
 
-  async getUserList(): Promise<User[]> {
+  async getUsersList(): Promise<any> {
     return this.prismaService.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        status: true,
+        city: true,
+        pets: true,
+      },
       orderBy: {
         name: 'asc',
       },
-      take: 5,
     });
   }
 
-  async getUserById(userId: string) {
+  async getUserById(userId: string): Promise<User> {
     return this.prismaService.user.findFirst({
       where: { id: Number(userId) },
-      // select: {
-      //   name: true,
-      //   city: true,
-      //   age: true,
-      // },
-      include: {
-        pets: true,
-      },
     });
   }
-
-  async deleteUser(id: string) {
-    // const user = this.users.find((item) => item.id === id);
-    // //slice на вибір
-    // return this.users;
+  async updateUser(userId: string, userData: UpdateUserDto) {
+    await this.prismaService.user.update({
+      where: { id: Number(userId) },
+      data: userData,
+    });
+  }
+  async deleteUser(userId: string) {
+    await this.prismaService.user.delete({
+      where: { id: Number(userId) },
+    });
   }
 }
