@@ -8,7 +8,8 @@ import {
   Patch,
   Post,
   Req,
-  Res, UseInterceptors,
+  Res,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/users.dto';
 import { UsersService } from './users.service';

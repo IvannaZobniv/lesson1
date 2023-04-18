@@ -9,6 +9,5 @@ import { PetsService } from '../pets/pets.service';
   imports: [PetsModule],
   controllers: [UsersController],
   providers: [PrismaService, UsersService, PetsService],
-
 })
 export class UsersModule {}
