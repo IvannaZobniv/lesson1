@@ -1,30 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
+import { User } from '@prisma/client';
+
+import { CreateUserDto } from './dto/users.dto';
+import { PrismaService } from '../core/orm/prisma.service';
 
 @Injectable()
 export class UsersService {
-  private users: any = [];
-  async getUsersList() {
-    return this.users;
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async createUser(userData: CreateUserDto): Promise<User> {
+    return this.prismaService.user.create({
+      data: {
+        name: userData.name,
+        city: userData.city,
+        status: userData.status,
+        age: userData.age,
+        email: userData.email,
+      },
+    });
   }
 
-  async createUser(userData: CreateUserDto) {
-    this.users.push(userData);
-    return this.users;
+  async getUserList(): Promise<User[]> {
+    return this.prismaService.user.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+      take: 5,
+    });
   }
 
-  async getById(userId: string) {
-    return await this.users.find((user) => user.id === userId);
+  async getUserById(userId: string) {
+    return this.prismaService.user.findFirst({
+      where: { id: Number(userId) },
+      // select: {
+      //   name: true,
+      //   city: true,
+      //   age: true,
+      // },
+      include: {
+        pets: true,
+      },
+    });
   }
 
-  async deleteById(userId: string) {
-    const index = await this.users.findIndex((user) => user.id === userId);
-    this.users.splice(index, 1);
-    return this.users;
-  }
-  async updateUser(userId: string, userData: UpdateUserDto) {
-    const index = await this.users.findIndex((user) => user.id === userId);
-    this.users[index] = { ...this.users[index], ...userData };
-    return this.users[index];
+  async deleteUser(id: string) {
+    // const user = this.users.find((item) => item.id === id);
+    // //slice на вибір
+    // return this.users;
   }
 }
