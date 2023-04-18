@@ -8,20 +8,12 @@ import {
   Patch,
   Post,
   Req,
-  Res,
-  UseInterceptors,
+  Res, UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/users.dto';
 import { UsersService } from './users.service';
-import {
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiParam,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { User } from '@prisma/client';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Users')
 @Controller('users')
@@ -44,7 +36,8 @@ export class UsersController {
       .status(HttpStatus.OK)
       .json(await this.userService.getUserById(userId));
   }
-  // @UseInterceptors(FileFieldsInterceptor([]))
+  // @UseInterceptors(FileInterceptor([]))
+
   @Post()
   async createUser(
     @Req() req: any,

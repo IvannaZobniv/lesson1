@@ -8,7 +8,7 @@ import { PetsModule } from './pets/pets.module';
 import { PrismaService } from './core/orm/prisma.service';
 
 @Module({
-  imports: [UsersModule, PetsModule, PrismaService],
+  imports: [UsersModule, PetsModule],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService, PrismaService],
 })
