@@ -33,4 +33,7 @@ export class CreateUserDto {
   @IsBoolean()
   @IsOptional()
   status: boolean;
+
+  @ApiProperty()
+  avatar: string;
 }

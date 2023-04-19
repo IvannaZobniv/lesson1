@@ -16,6 +16,7 @@ export class UsersService {
         status: userData.status,
         age: userData.age,
         email: userData.email,
+        avatar: userData.avatar,
       },
     });
   }
@@ -32,14 +33,15 @@ export class UsersService {
   async getUserById(userId: string) {
     return this.prismaService.user.findFirst({
       where: { id: Number(userId) },
-      // select: {
-      //   name: true,
-      //   city: true,
-      //   age: true,
-      // },
-      include: {
-        pets: true,
+      select: {
+        id: true,
+        name: true,
+        city: true,
+        age: true,
       },
+      // include: {
+      //   pets: true,
+      // },
     });
   }
 
