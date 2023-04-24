@@ -12,20 +12,29 @@ import {
   Req,
   Res,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/users.dto';
 import { UsersService } from './users.service';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { User } from '@prisma/client';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '../core/file-upload/file.upload';
-import { PetDto } from '../pets/dto/pet.dto';
-import any = jasmine.any;
 import { PetsService } from '../pets/pets.service';
+import { PetDto } from '../pets/dto/pet.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Users')
 @Controller('users')
+@UseGuards(AuthGuard())
 export class UsersController {
   constructor(
     private readonly userService: UsersService,
@@ -33,6 +42,7 @@ export class UsersController {
     private readonly petsService: PetsService,
   ) {}
 
+  // @UseGuards(AuthGuard())
   @Get()
   async getUsersList(@Req() req: any, @Res() res: any) {
     return res.status(HttpStatus.OK).json(await this.userService.getUserList());
@@ -49,6 +59,12 @@ export class UsersController {
       .status(HttpStatus.OK)
       .json(await this.userService.getUserById(userId));
   }
+
+  // @ApiOkResponse({
+  //   description: 'The record has been successfully created.',
+  //   type: User,
+  // })
+  @Post()
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -58,7 +74,6 @@ export class UsersController {
       fileFilter: imageFileFilter,
     }),
   )
-  @Post()
   async createUser(
     @Req() req: any,
     @Body() body: CreateUserDto,
@@ -70,8 +85,11 @@ export class UsersController {
     }
     return res
       .status(HttpStatus.CREATED)
-      .json(await this.userService.createUser(body));
+      .json(await this.userService.createUserByManager(body));
   }
+
+  // catch (err) {
+  //   fs.unlink()   }
 
   @Delete('/:userId')
   async deleteUser(
@@ -94,6 +112,7 @@ export class UsersController {
   ) {
     //
   }
+
   @Post('/animals/:userId')
   async addNewPet(
     @Req() req: any,

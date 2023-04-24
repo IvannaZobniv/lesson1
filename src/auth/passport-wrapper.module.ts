@@ -1,17 +1,16 @@
-import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UsersModule } from '../users/users.module';
+import { Global, Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
 import { BearerStrategy } from './bearer.strategy';
 import { UsersService } from '../users/users.service';
-import { JwtModule } from '@nestjs/jwt';
-import { CoreModule } from '../core/core.module';
-import { MailService } from '../core/mail/mail.service';
+import { UsersModule } from '../users/users.module';
+import { AuthModule } from './auth.module';
 
+@Global()
 @Module({
   imports: [
     UsersModule,
-    CoreModule,
+    AuthModule,
     PassportModule.register({ defaultStrategy: 'bearer' }),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -22,7 +21,7 @@ import { MailService } from '../core/mail/mail.service';
       }),
     }),
   ],
-  providers: [AuthService, BearerStrategy, UsersService, MailService],
-  exports: [AuthService],
+  providers: [BearerStrategy, UsersService],
+  exports: [PassportModule],
 })
-export class AuthModule {}
+export class PassportWrapperModule {}
