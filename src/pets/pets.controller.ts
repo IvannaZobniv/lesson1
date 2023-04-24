@@ -3,15 +3,18 @@ import {
   Controller,
   HttpStatus,
   Patch,
+  Post,
   Req,
   Res,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { PetsService } from './pets.service';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { editFileName, imageFileFilter } from '../core/file-upload/file.upload';
 import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from '../core/file-upload/file.upload';
+import { CreateUserDto } from '../users/dto/users.dto';
+import { PetDto } from './dto/pet.dto';
+import { PetsService } from './pets.service';
 
 @Controller('pets')
 export class PetsController {
@@ -20,7 +23,7 @@ export class PetsController {
   @UseInterceptors(
     FileFieldsInterceptor(
       [
-        { name: 'image', maxCount: 3 },
+        { name: 'image', maxCount: 1 },
         { name: 'logo', maxCount: 1 },
       ],
       {

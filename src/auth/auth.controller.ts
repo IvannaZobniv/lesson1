@@ -51,7 +51,8 @@ export class AuthController {
         .json({ message: 'User with this email is already exist' });
     }
     const user = await this.userService.createUser({
-      name: body.name ? body.name : 'User', // body.name || body.email,
+      // body.name || body.email,
+      name: body.name ? body.name : 'User',
       email: body.email,
       password: body.password,
     });

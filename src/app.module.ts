@@ -21,7 +21,7 @@ import { MailService } from './core/mail/mail.service';
     PrismaModule,
     AuthModule,
     CoreModule,
-    // MailService,
+    MailService,
     PassportWrapperModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),

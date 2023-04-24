@@ -1,4 +1,3 @@
-// import { Strategy } from 'passport-local';
 import { Strategy } from 'passport-http-bearer';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
