@@ -12,7 +12,6 @@ import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { PassportWrapperModule } from './auth/passport-wrapper.module';
 import { CoreModule } from './core/core.module';
-import { MailService } from './core/mail/mail.service';
 
 @Module({
   imports: [
@@ -21,7 +20,7 @@ import { MailService } from './core/mail/mail.service';
     PrismaModule,
     AuthModule,
     CoreModule,
-    MailService,
+    // MailService,
     PassportWrapperModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),

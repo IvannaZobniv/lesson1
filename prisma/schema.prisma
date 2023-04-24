@@ -17,6 +17,7 @@ model User {
   password String?
   status   Boolean? @default(false)
   pets     Pets[]
+  dayOff   String?
 }
 
 model Pets {

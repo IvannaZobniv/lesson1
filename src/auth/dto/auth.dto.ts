@@ -9,7 +9,7 @@ export class LoginDto {
 
   @ApiProperty()
   @IsString()
-  @Length(5, 25)
+  @Length(5, 255)
   @IsNotEmpty()
   password: string;
 }
@@ -22,7 +22,7 @@ export class RegisterDto {
 
   @ApiProperty()
   @IsString()
-  @Length(5, 25)
+  @Length(5, 255)
   @IsNotEmpty()
   password: string;
 
