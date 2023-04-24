@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsEmail,
+  // IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -27,6 +28,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsString()
+  // @IsEnum(CityEnum)
   city: string;
 
   @ApiProperty()
