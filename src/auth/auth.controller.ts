@@ -59,7 +59,7 @@ export class AuthController {
 
     if (user) {
       const subject = 'Welcome on board!';
-      await this.mailService.send(user.email, subject, MailTemplate.WELCOME, {
+      this.mailService.send(user.email, subject, MailTemplate.WELCOME, {
         userName: user.name,
       });
       const token = await this.authService.singIn(user.id.toString());
