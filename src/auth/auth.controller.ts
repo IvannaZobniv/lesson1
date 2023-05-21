@@ -1,17 +1,14 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
-import { MailService } from '../core/mail/mail.service';
-import { MailTemplate } from '../core/mail/mail.interface';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private userService: UsersService,
+    private userService: UserService,
     private mailService: MailService,
   ) {}
 
@@ -20,13 +17,13 @@ export class AuthController {
     if (!body.email && !body.password) {
       return res
         .status(HttpStatus.FORBIDDEN)
-        .json({ message: 'Error.Check_request_params' });
+        .json({ message: 'Error. Check the query parameters' });
     }
     const findUser = await this.userService.findUserByEmail(body.email);
     if (!findUser) {
       return res
         .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: 'Email or password is incorrect' });
+        .json({ message: 'The email address or password is incorrect' });
     }
     if (await this.authService.compareHash(body.password, findUser.password)) {
       const token = await this.authService.singIn(findUser.id.toString());
@@ -34,7 +31,7 @@ export class AuthController {
     }
     return res
       .status(HttpStatus.UNAUTHORIZED)
-      .json({ message: 'Email or password is incorrect' });
+      .json({ message: 'The email address or password is incorrect' });
   }
 
   @Post('register')
@@ -48,19 +45,19 @@ export class AuthController {
     if (findUser) {
       return res
         .status(HttpStatus.FORBIDDEN)
-        .json({ message: 'User with this email is already exist' });
+        .json({ message: 'A user with this email address already exists' });
     }
-    const user = await this.userService.createUser({
-      // body.name || body.email,
-      name: body.name ? body.name : 'User',
+    const user = await this.userService.createUser(body.role, {
+      firstName: body.firstName ? body.firstName : 'User',
       email: body.email,
       password: body.password,
+      phoneNumber: body.phoneNumber,
     });
 
     if (user) {
-      const subject = 'Welcome on board!';
+      const subject = 'Welcome!';
       this.mailService.send(user.email, subject, MailTemplate.WELCOME, {
-        userName: user.name,
+        userName: user.firstName,
       });
       const token = await this.authService.singIn(user.id.toString());
       return res.status(HttpStatus.OK).json({ token });
@@ -68,6 +65,6 @@ export class AuthController {
 
     return res
       .status(HttpStatus.BAD_REQUEST)
-      .json({ message: 'Error.Register_user_failed' });
+      .json({ message: 'Error. Failed to register user' });
   }
 }

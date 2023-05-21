@@ -9,27 +9,9 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class LoginDto {
-  @ApiProperty({ required: true, example: 'user@gmail.com' })
-  @IsEmail()
-  @IsString()
-  @IsEmail()
-  email: string;
-
-  @ApiProperty({ required: true, example: 'Abc123' })
+export class CreateAdminDto {
+  @ApiProperty({ required: true, example: 'admin@anycompany.com' })
   @IsNotEmpty()
-  @IsString()
-  @MinLength(8)
-  @Matches(PASSWORD_REGEX, {
-    message:
-      'Password must contain at least one uppercase and lowercase letter, one number, one special character, and must be at least 8 characters long',
-  })
-  password: string;
-}
-
-export class RegisterDto {
-  @ApiProperty({ required: true, example: 'user@gmail.com' })
-  @IsEmail()
   @IsString()
   @IsEmail()
   email: string;
@@ -67,6 +49,14 @@ export class RegisterDto {
   @ApiPropertyOptional()
   avatar?: string;
 
+  @ApiProperty({ required: true, example: 'SomeCompany' })
+  @IsNotEmpty()
+  @IsString()
+  @Matches(COMPANY_REGEX, {
+    message: 'The company name must be AnyCompany or its partners',
+  })
+  company: string;
+
   @ApiProperty({ enum: UserRole })
   @IsNotEmpty()
   role: UserRole;
@@ -76,4 +66,14 @@ export class RegisterDto {
   @IsString()
   @IsPhoneNumber()
   phoneNumber: string;
+
+  @ApiProperty({ required: true, example: 'Developer' })
+  @IsNotEmpty()
+  @IsString()
+  @Matches(POSITION_REGEX, {
+    message:
+      'Position must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
+  })
+  @NoProfanity()
+  position: string;
 }

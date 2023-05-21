@@ -1,0 +1,51 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsIn, IsInt, IsOptional, IsString } from 'class-validator';
+
+class UpdateCarDto {
+  @ApiProperty({ required: false, example: 'BMW' })
+  @IsOptional()
+  @IsString()
+  brand?: string;
+
+  @ApiProperty({ required: false, example: 'X5' })
+  @IsOptional()
+  @IsString()
+  model?: string;
+
+  @ApiProperty({ required: false, example: 2023 })
+  @IsOptional()
+  @IsInt()
+  year?: number;
+
+  @ApiProperty({ required: false, example: 'Kyiv' })
+  @IsOptional()
+  @IsString()
+  region?: string;
+
+  @ApiProperty({ required: false, example: 1000 })
+  @IsOptional()
+  @IsInt()
+  mileage?: number;
+
+  @ApiProperty({ required: false, example: 100000 })
+  @IsOptional()
+  @IsInt()
+  price?: number;
+
+  @ApiProperty({ required: false, example: 'USD' })
+  @IsOptional()
+  @IsString()
+  @IsIn(['USD', 'EUR', 'UAH'])
+  currency?: string;
+
+  @ApiProperty({ required: false, example: 'This is a description of the car' })
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  image?: string;
+}
+
+export default UpdateCarDto;

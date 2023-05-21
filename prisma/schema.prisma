@@ -7,26 +7,193 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       Int      @id @default(autoincrement()) // uuid
-  email    String   @unique
-  name     String?
-  city     String?
-  age      Int?
-  avatar   String?
-  password String?
-  status   Boolean? @default(false)
-  pets     Pets[]
-  dayOff   String?
+enum UserRole {
+  ADMIN
+  BUYER
+  CARSHOWROOM_ADMIN
+  CARSHOWROOM_MANAGER
+  CARSHOWROOM_MECHANIC
+  CARSHOWROOM_SALES
+  CARSHOWROOM_SERVICE_MANAGER
+  MANAGER
+  SELLER
+  SELLER_PREMIUM
 }
 
-model Pets {
-  id      Int      @id @default(autoincrement())
-  name    String
-  type    String?
-  image   String?
-  logo    String?
-  status  Boolean? @default(false)
-  owner   User?    @relation(fields: [ownerId], references: [id])
-  ownerId Int?
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+  SOLD
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  password    String
+  firstName   String
+  lastName    String?
+  avatar      String?
+  role        UserRole  @default(BUYER)
+  phoneNumber String
+  buyer       Buyer?
+  seller      Seller?
+  admin       Admin?
+  manager     Manager?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [adminId], references: [id])
+  adminId   Int
+  company   String
+  position  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([adminId], name: "adminId_unique")
+}
+
+model Manager {
+  id        Int  @id @default(autoincrement())
+  user      User @relation(fields: [managerId], references: [id])
+  managerId Int  @unique
+}
+
+model Buyer {
+  id      Int  @id @default(autoincrement())
+  user    User @relation(fields: [buyerId], references: [id])
+  buyerId Int  @unique
+}
+
+model Seller {
+  id              Int            @id @default(autoincrement())
+  user            User           @relation(fields: [userId], references: [id])
+  userId          Int            @unique
+  cars            Car[]          @relation("SellerCars")
+  premiumSeller   PremiumSeller?
+  premiumSellerId Int?
+  carCount        Int            @default(0)
+  car             Car?
+}
+
+model PremiumSeller {
+  id                  Int    @id @default(autoincrement())
+  seller              Seller @relation(fields: [sellerId], references: [id])
+  sellerId            Int    @unique
+  cars                Car[]  @relation("PremiumSellerCars")
+  views               Int    @default(0)
+  viewsPerDay         Int?
+  viewsPerWeek        Int?
+  viewsPerMonth       Int?
+  averagePriceRegion  Float?
+  averagePriceUkraine Float?
+}
+
+model Car {
+  id                 Int               @id @default(autoincrement())
+  owner              Seller            @relation(fields: [ownerId], references: [id])
+  ownerId            Int               @unique
+  brand              String
+  model              String
+  year               Int
+  region             String
+  mileage            Float
+  price              Float
+  currency           String
+  description        String?
+  image              String
+  status             Status            @default(PENDING)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  checkedByAdmin     Boolean           @default(false)
+  checkedAt          DateTime?
+  views              Int               @default(0)
+  seller             Seller            @relation("SellerCars", fields: [sellerId], references: [id])
+  sellerId           Int               @unique
+  premiumSeller      PremiumSeller?    @relation("PremiumSellerCars", fields: [premiumSellerId], references: [id])
+  premiumSellerId    Int?
+  CarshowroomSales   CarshowroomSales? @relation(fields: [carshowroomSalesId], references: [id])
+  carshowroomSalesId Int?
+
+  @@index([ownerId], name: "ownerId")
+}
+
+model Carshowroom {
+  id              Int                         @id @default(autoincrement())
+  name            String
+  address         String
+  phoneNumber     String
+  email           String
+  websiteUrl      String?
+  admins          CarshowroomAdmin[]
+  managers        CarshowroomManager[]
+  mechanics       CarshowroomMechanic[]
+  salespeople     CarshowroomSales[]
+  serviceManagers CarshowroomServiceManager[]
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime                    @updatedAt
+}
+
+model CarshowroomAdmin {
+  id            Int         @id @default(autoincrement())
+  firstName     String
+  lastName      String?
+  phoneNumber   String
+  email         String
+  carshowroom   Carshowroom @relation(fields: [carshowroomId], references: [id])
+  carshowroomId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model CarshowroomManager {
+  id            Int         @id @default(autoincrement())
+  firstName     String
+  lastName      String?
+  phoneNumber   String
+  email         String
+  carshowroom   Carshowroom @relation(fields: [carshowroomId], references: [id])
+  carshowroomId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model CarshowroomMechanic {
+  id            Int         @id @default(autoincrement())
+  firstName     String
+  lastName      String?
+  phoneNumber   String
+  email         String?
+  carshowroom   Carshowroom @relation(fields: [carshowroomId], references: [id])
+  carshowroomId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model CarshowroomSales {
+  id            Int         @id @default(autoincrement())
+  firstName     String
+  lastName      String?
+  phoneNumber   String
+  email         String
+  carshowroom   Carshowroom @relation(fields: [carshowroomId], references: [id])
+  carshowroomId Int
+  car           Car[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model CarshowroomServiceManager {
+  id            Int         @id @default(autoincrement())
+  firstName     String
+  lastName      String?
+  phoneNumber   String
+  email         String?
+  carshowroom   Carshowroom @relation(fields: [carshowroomId], references: [id])
+  carshowroomId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }

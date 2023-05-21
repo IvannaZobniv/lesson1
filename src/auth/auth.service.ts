@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private userService: UserService,
     private jwtService: JwtService,
   ) {}
 
@@ -16,5 +15,11 @@ export class AuthService {
 
   async singIn(userId: string) {
     return this.jwtService.sign({ id: userId });
+  }
+
+  async validateUserByToken(token: string) {
+    const decodedToken: any = this.jwtService.verify(token);
+    const userEmail = decodedToken.email;
+    return this.userService.findUserByEmail(userEmail);
   }
 }

@@ -9,27 +9,9 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class LoginDto {
-  @ApiProperty({ required: true, example: 'user@gmail.com' })
-  @IsEmail()
-  @IsString()
-  @IsEmail()
-  email: string;
-
-  @ApiProperty({ required: true, example: 'Abc123' })
+export class CreateBuyerDto {
+  @ApiProperty({ required: true, example: 'buyer@gmail.com' })
   @IsNotEmpty()
-  @IsString()
-  @MinLength(8)
-  @Matches(PASSWORD_REGEX, {
-    message:
-      'Password must contain at least one uppercase and lowercase letter, one number, one special character, and must be at least 8 characters long',
-  })
-  password: string;
-}
-
-export class RegisterDto {
-  @ApiProperty({ required: true, example: 'user@gmail.com' })
-  @IsEmail()
   @IsString()
   @IsEmail()
   email: string;
@@ -44,7 +26,7 @@ export class RegisterDto {
   })
   password: string;
 
-  @ApiProperty({ required: true, example: 'Catcatcat' })
+  @ApiProperty({ required: true, example: 'Iva' })
   @IsNotEmpty()
   @IsString()
   @Matches(FIRSTNAME_REGEX, {
@@ -54,7 +36,7 @@ export class RegisterDto {
   @NoProfanity()
   firstName: string;
 
-  @ApiProperty({ required: false, example: 'Catcat' })
+  @ApiProperty({ required: false, example: 'Zo' })
   @IsOptional()
   @IsString()
   @Matches(LASTNAME_REGEX, {
