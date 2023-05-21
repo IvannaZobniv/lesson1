@@ -242,19 +242,19 @@ Here are the methods and URLs for the project respectively `{{api}} - http://loc
 
 - Seller:
 
-| method |            URL            |                       description |
-|--------|:-------------------------:|----------------------------------:|
-| POST   |      {{api}}/seller       |               Create a new seller 
-| GET    |  {{api}}/seller           |             Get a list of sallers |
-| PATCH  | {{api}}/seller/:idSeller  |                   Update a seller |
-| GET    | {{api}}/seller/:idSeller  |                  Get seller by ID 
-| DELETE | {{api}}/seller/:idSeller  |                   Remove a seller |
-| GET    | {{api}}/seller/:firstName |             Find a seller by name |
+| method |                 URL                 |                       description |
+|--------|:-----------------------------------:|----------------------------------:|
+| POST   |           {{api}}/seller            |               Create a new seller |
+| GET    |           {{api}}/seller            |             Get a list of sallers |
+| PATCH  |      {{api}}/seller/:idSeller       |                   Update a seller |
+| GET    |      {{api}}/seller/:idSeller       |                  Get seller by ID |
+| DELETE |      {{api}}/seller/:idSeller       |                   Remove a seller |
+| GET    |      {{api}}/seller/:firstName      |             Find a seller by name |
 | POST   |    {{api}}/seller/:idSeller/car     | Create of a new car by the seller |
 | GET    |    {{api}}/seller/:idSeller/car     |   Get the whole car by the seller |
 | PATCH  | {{api}}/seller/:idSeller/car/:idCar |   Update of the car by the seller |
 | GET    | {{api}}/seller/:idSeller/car/:idCar |         Get the car by the seller |
-| DELETE |      {{api}}/seller/:idSeller/car   |  Remove of the  car by the seller |
+| DELETE |    {{api}}/seller/:idSeller/car     |  Remove of the  car by the seller |
 
 - Seller Premium:
 
