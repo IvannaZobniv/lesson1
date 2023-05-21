@@ -2,6 +2,9 @@ import { ApiTags } from '@nestjs/swagger';
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
+import { MailTemplate } from '../common/mail/mail.interface';
+import { MailService } from '../common/mail/mail.service';
+import { UserService } from '../user/user.service';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -56,7 +59,7 @@ export class AuthController {
 
     if (user) {
       const subject = 'Welcome!';
-      this.mailService.send(user.email, subject, MailTemplate.WELCOME, {
+      await this.mailService.send(user.email, subject, MailTemplate.WELCOME, {
         userName: user.firstName,
       });
       const token = await this.authService.singIn(user.id.toString());

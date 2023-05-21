@@ -8,6 +8,13 @@ import {
   Matches,
   MinLength,
 } from 'class-validator';
+import {
+  FIRSTNAME_REGEX,
+  LASTNAME_REGEX,
+  PASSWORD_REGEX,
+} from '../../common/regex/register.regex';
+import { UserRole } from '../../common/enum/user-role';
+import { Profanity } from '../../common/decorator/Profanity';
 
 export class LoginDto {
   @ApiProperty({ required: true, example: 'user@gmail.com' })
@@ -51,7 +58,7 @@ export class RegisterDto {
     message:
       'The name must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   firstName: string;
 
   @ApiProperty({ required: false, example: 'Catcat' })
@@ -61,7 +68,7 @@ export class RegisterDto {
     message:
       'Surname must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   lastName?: string;
 
   @ApiPropertyOptional()

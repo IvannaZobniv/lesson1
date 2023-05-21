@@ -4,6 +4,6 @@ import { CarshowroomAdminController } from './carshowroom-admin.controller';
 
 @Module({
   providers: [CarshowroomAdminService],
-  controllers: [CarshowroomAdminController]
+  controllers: [CarshowroomAdminController],
 })
 export class CarshowroomAdminModule {}

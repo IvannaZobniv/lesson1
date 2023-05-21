@@ -7,6 +7,15 @@ import {
   MinLength,
 } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  COMPANY_REGEX,
+  FIRSTNAME_REGEX,
+  LASTNAME_REGEX,
+  PASSWORD_REGEX,
+  POSITION_REGEX,
+} from '../../common/regex/register.regex';
+import { UserRole } from '../../common/enum/user-role';
+import { Profanity } from '../../common/decorator/Profanity';
 
 export class UpdateAdminDto {
   @ApiPropertyOptional({ example: 'admin@anycompany.com' })
@@ -32,7 +41,7 @@ export class UpdateAdminDto {
     message:
       'The name must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   firstName?: string;
 
   @ApiPropertyOptional({ example: 'Catcat' })
@@ -42,7 +51,7 @@ export class UpdateAdminDto {
     message:
       'Surname must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   lastName?: string;
 
   @ApiPropertyOptional()
@@ -52,8 +61,7 @@ export class UpdateAdminDto {
   @IsOptional()
   @IsString()
   @Matches(COMPANY_REGEX, {
-    message:
-      'The company name must be AnyCompany or its partners',
+    message: 'The company name must be AnyCompany or its partners',
   })
   company?: string;
 
@@ -74,6 +82,6 @@ export class UpdateAdminDto {
     message:
       'Position must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   position?: string;
 }

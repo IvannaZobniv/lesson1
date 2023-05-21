@@ -12,7 +12,7 @@ enum UserRole {
   BUYER
   CARSHOWROOM_ADMIN
   CARSHOWROOM_MANAGER
-  CARSHOWROOM_MECHANIC
+  CARSHOWROOM_AUTOMECHANIC
   CARSHOWROOM_SALES
   CARSHOWROOM_SERVICE_MANAGER
   MANAGER
@@ -130,7 +130,7 @@ model Carshowroom {
   websiteUrl      String?
   admins          CarshowroomAdmin[]
   managers        CarshowroomManager[]
-  mechanics       CarshowroomMechanic[]
+  mechanics       CarshowroomAutoMechanic[]
   salespeople     CarshowroomSales[]
   serviceManagers CarshowroomServiceManager[]
   createdAt       DateTime                    @default(now())
@@ -161,7 +161,7 @@ model CarshowroomManager {
   updatedAt     DateTime    @updatedAt
 }
 
-model CarshowroomMechanic {
+model CarshowroomAutoMechanic {
   id            Int         @id @default(autoincrement())
   firstName     String
   lastName      String?

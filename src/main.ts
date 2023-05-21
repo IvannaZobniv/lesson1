@@ -8,10 +8,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-    .setTitle('Nest lesson1 example')
-    .setDescription('The lesson1 API description')
+    .setTitle('AnyCompany platform for selling cars')
+    .setDescription('API description of AnyCompany\'s car sales platform')
     .setVersion('1.0')
-    .addTag('lesson1')
+    .addTag('AnyCompany')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/doc', app, document);

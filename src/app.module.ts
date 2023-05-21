@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { HttpModule } from '@nestjs/axios/dist';
 import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
@@ -32,6 +33,29 @@ import { CarshowroomAdminService } from './carshowroom-admin/carshowroom-admin.s
 import { CarshowroomAutomechanicController } from './carshowroom-automechanic/carshowroom-automechanic.controller';
 import { CarshowroomAutomechanicService } from './carshowroom-automechanic/carshowroom-automechanic.service';
 import { CommonModule } from './common/common.module';
+import { MailModule } from './common/mail/mail.module';
+import { PrismaModule } from './common/orm/prisma.module';
+import { MailService } from './common/mail/mail.service';
+import { PrismaService } from './common/orm/prisma.service';
+import { CurrencyModule } from './currency/currency.module';
+import { ManagerService } from './manager/manager.service';
+import { ManagerController } from './manager/manager.controller';
+import { ManagerModule } from './manager/manager.module';
+import { CurrencyService } from './currency/currency.service';
+import { PasswordModule } from './password/password.module';
+import { S3Service } from './s3/s3.service';
+import { S3Controller } from './s3/s3.controller';
+import { S3Module } from './s3/s3.module';
+import { SellerPremiumModule } from './seller-premium/seller-premium.module';
+import { PasswordController } from './password/password.controller';
+import { SellerPremiumService } from './seller-premium/seller-premium.service';
+import { SellerPremiumController } from './seller-premium/seller-premium.controller';
+import { PasswordService } from './password/password.service';
+import { SellerService } from './seller/seller.service';
+import { SellerController } from './seller/seller.controller';
+import { SellerModule } from './seller/seller.module';
+import { UserModule } from './user/user.module';
+import { UserService } from './user/user.service';
 
 @Module({
   imports: [

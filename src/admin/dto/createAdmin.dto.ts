@@ -8,6 +8,15 @@ import {
   Matches,
   MinLength,
 } from 'class-validator';
+import {
+  COMPANY_REGEX,
+  FIRSTNAME_REGEX,
+  LASTNAME_REGEX,
+  PASSWORD_REGEX,
+  POSITION_REGEX,
+} from '../../common/regex/register.regex';
+import { UserRole } from '../../common/enum/user-role';
+import { Profanity } from '../../common/decorator/Profanity';
 
 export class CreateAdminDto {
   @ApiProperty({ required: true, example: 'admin@anycompany.com' })
@@ -33,7 +42,7 @@ export class CreateAdminDto {
     message:
       'The name must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   firstName: string;
 
   @ApiProperty({ required: false, example: 'Catcat' })
@@ -43,13 +52,13 @@ export class CreateAdminDto {
     message:
       'Surname must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   lastName?: string;
 
   @ApiPropertyOptional()
   avatar?: string;
 
-  @ApiProperty({ required: true, example: 'SomeCompany' })
+  @ApiProperty({ required: true, example: 'AnyCompany' })
   @IsNotEmpty()
   @IsString()
   @Matches(COMPANY_REGEX, {
@@ -74,6 +83,6 @@ export class CreateAdminDto {
     message:
       'Position must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   position: string;
 }

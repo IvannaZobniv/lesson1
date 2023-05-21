@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBuyerDto } from './dto/createBuyer.dto';
 import { UpdateBuyerDto } from './dto/updateBuyer.dto';
+import { PrismaService } from '../common/orm/prisma.service';
+import { Buyer } from '@prisma/client';
+import { PasswordService } from '../password/password.service';
 
 @Injectable()
 export class BuyerService {

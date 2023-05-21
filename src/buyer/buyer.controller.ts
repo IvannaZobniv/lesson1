@@ -23,11 +23,18 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { editFileName, imageFileFilter } from '../core/file-upload/file.upload';
 import { diskStorage } from 'multer';
 import { BuyerService } from './buyer.service';
 import { CreateBuyerDto } from './dto/createBuyer.dto';
 import { UpdateBuyerDto } from './dto/updateBuyer.dto';
+import { buildPath } from '../common/helpers/helper';
+import { Buyer } from '@prisma/client';
+import {
+  editFileName,
+  imageFileFilter,
+} from '../common/file-upload/file.upload';
+import { S3Service } from '../s3/s3.service';
+
 @ApiTags('Buyer')
 @Controller('Buyer')
 export class BuyerController {

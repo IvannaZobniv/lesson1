@@ -35,6 +35,22 @@ import { BuyerService } from '../buyer/buyer.service';
 import UpdateCarDto from '../car/updateCar.dto';
 import { UpdateBuyerDto } from '../buyer/dto/updateBuyer.dto';
 import CreateCarDto from '../car/createCar.dto';
+import { MulterFile } from '../common/interface/MulterFile';
+import {
+  editFileName,
+  imageFileFilter,
+} from '../common/file-upload/file.upload';
+import { Period } from '../common/enum/views-period';
+import { Admin, Buyer, Car, Manager, Seller } from '@prisma/client';
+import { buildPath } from '../common/helpers/helper';
+import { UpdateManagerDto } from '../manager/dto/updateManager.dto';
+import { CreateManagerDto } from '../manager/dto/createManager.dto';
+import { ManagerService } from '../manager/manager.service';
+import { SellerPremiumService } from '../seller-premium/seller-premium.service';
+import UpdateSellerDto from '../seller/dto/updateSeller.dto';
+import CreateSellerDto from '../seller/dto/createSeller.dto';
+import { SellerService } from '../seller/seller.service';
+import { S3Service } from '../s3/s3.service';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -160,7 +176,7 @@ export class AdminController {
     res.sendStatus(HttpStatus.OK);
   }
 
-  //---------------------------
+
   @ApiOperation({ summary: 'Create a new buyer as an admin' })
   @Post('/buyer')
   @UseInterceptors(
@@ -336,13 +352,13 @@ export class AdminController {
   @ApiOperation({ summary: 'Get a manager named admin' })
   @ApiParam({ name: 'firstName', required: true })
   @Get('/manager/name/:firstName')
-  async getManagerByFirstName(
+  async getManagerByName(
     @Req() req: Request,
     @Res() res: any,
     @Param('firstName') firstName: string,
   ): Promise<Manager> {
     try {
-      const buyer = await this.managerService.getManagerByFirstName(firstName);
+      const buyer = await this.managerService.getManagerByName(firstName);
       return res.status(HttpStatus.OK).json(buyer);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -450,7 +466,7 @@ export class AdminController {
     @Param('firstName') firstName: string,
   ): Promise<Seller> {
     try {
-      const seller = await this.sellerService.getSellerByFirstName(firstName);
+      const seller = await this.sellerService.getSellerByName(firstName);
       return res.status(HttpStatus.OK).json(seller);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -688,8 +704,8 @@ export class AdminController {
   }
 
   //-----------------------
-  @ApiOperation({ summary: 'Create a new car dealership as an admin' })
-  @Post('/cardealership')
+  @ApiOperation({ summary: 'Create a new car showroom as an admin' })
+  @Post('/carshowroom')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async createCarshowroom() {}
 
@@ -769,31 +785,31 @@ export class AdminController {
 
   //-------------------------
   @ApiOperation({ summary: 'Create a new car showroom mechanic as an admin' })
-  @Post('/carshowroomMechanic')
+  @Post('/carshowroomAutoMechanic')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async createCarshowroomMechanic() {}
+  async createCarshowroomAutoMechanic() {}
 
   @ApiOperation({ summary: 'Update the car showroom mechanic as an admin' })
-  @Patch('/carshowroomMechanic/:idCarshowroomMechanic')
+  @Patch('/carshowroomAutoMechanic/:idCarshowroomAutoMechanic')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async updateCarshowroomMechanic() {}
+  async updateCarshowroomAutoMechanic() {}
 
   @ApiOperation({
     summary: 'Get a list of car showroom mechanics from the admin',
   })
-  @Get('/carshowroomMechanic')
+  @Get('/carshowroomAutoMechanic')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async getCarshowroomMechanicList() {}
+  async getCarshowroomAutoMechanicList() {}
 
   @ApiOperation({ summary: 'Get a car showroom mechanic by ID from the admin' })
-  @Get('/carshowroomMechanic/:idCarshowroomMechanic')
+  @Get('/carshowroomAutoMechanic/:idCarshowroomAutoMechanic')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async getCarshowroomMechanic() {}
+  async getCarshowroomAutoMechanic() {}
 
   @ApiOperation({ summary: 'Delete car mechanic admin' })
-  @Delete('/carshowroomMechanic/:idCarshowroomMechanic')
+  @Delete('/carshowroomAutoMechanic/:idCarshowroomAutoMechanic')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async deleteCarshowroomMechanic() {}
+  async deleteCarshowroomAutoMechanic() {}
 
   //------------------
   @ApiOperation({ summary: 'The admin will create a new car showroom' })

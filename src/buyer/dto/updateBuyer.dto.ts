@@ -7,6 +7,13 @@ import {
   MinLength,
 } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  FIRSTNAME_REGEX,
+  LASTNAME_REGEX,
+  PASSWORD_REGEX,
+} from '../../common/regex/register.regex';
+import { UserRole } from '../../common/enum/user-role';
+import { Profanity } from '../../common/decorator/Profanity';
 
 export class UpdateBuyerDto {
   @ApiPropertyOptional({ example: 'buyer@gmail.com' })
@@ -32,7 +39,7 @@ export class UpdateBuyerDto {
     message:
       'The name must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   firstName?: string;
 
   @ApiPropertyOptional({ example: 'Zo' })
@@ -42,7 +49,7 @@ export class UpdateBuyerDto {
     message:
       'Surname must contain at least 2 characters, only letters, spaces, hyphens, apostrophes and Cyrillic characters are allowed',
   })
-  @NoProfanity()
+  @Profanity()
   lastName?: string;
 
   @ApiPropertyOptional()
