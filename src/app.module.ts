@@ -56,6 +56,27 @@ import { SellerController } from './seller/seller.controller';
 import { SellerModule } from './seller/seller.module';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
+import { AdminCarshowroomService } from './admin-carshowroom/admin-carshowroom.service';
+import { AdminCarshowroomController } from './admin-carshowroom/admin-carshowroom.controller';
+import { AdminCarshowroomModule } from './admin-carshowroom/admin-carshowroom.module';
+import { AdminCarshowroomAdminModule } from './admin-carshowroom-admin/admin-carshowroom-admin.module';
+import { AdminCarshowroomManagerModule } from './admin-carshowroom-manager/admin-carshowroom-manager.module';
+import { AdminCarshowroomAutoMechanicController } from './admin-carshowroom-auto-mechanic/admin-carshowroom-auto-mechanic.controller';
+import { AdminCarshowroomAutoMechanicService } from './admin-carshowroom-auto-mechanic/admin-carshowroom-auto-mechanic.service';
+import { AdminCarshowroomAutoMechanicModule } from './admin-carshowroom-auto-mechanic/admin-carshowroom-auto-mechanic.module';
+import { AdminCarshowroomSalesModule } from './admin-carshowroom-sales/admin-carshowroom-sales.module';
+import { AdminCarshowroomServiceManagerController } from './admin-carshowroom-service-manager/admin-carshowroom-service-manager.controller';
+import { AdminCarshowroomServiceManagerService } from './admin-carshowroom-service-manager/admin-carshowroom-service-manager.service';
+import { AdminCarshowroomServiceManagerModule } from './admin-carshowroom-service-manager/admin-carshowroom-service-manager.module';
+import { AdminBuyerModule } from './admin-buyer/admin-buyer.module';
+import { AdminManagerController } from './admin-manager/admin-manager.controller';
+import { AdminManagerService } from './admin-manager/admin-manager.service';
+import { AdminManagerModule } from './admin-manager/admin-manager.module';
+import { AdminSellerModule } from './admin-seller/admin-seller.module';
+import { AdminSellerPremiumController } from './admin-seller-premium/admin-seller-premium.controller';
+import { AdminSellerPremiumService } from './admin-seller-premium/admin-seller-premium.service';
+import { AdminSellerPremiumModule } from './admin-seller-premium/admin-seller-premium.module';
+
 
 @Module({
   imports: [
@@ -81,6 +102,18 @@ import { UserService } from './user/user.service';
     UserModule,
     CarshowroomAutomechanicModule,
     CommonModule,
+    AdminCarshowroomModule,
+    AdminCarshowroomAdminModule,
+    AdminCarshowroomManagerModule,
+    AdminCarshowroomAutoMechanicModule,
+    AdminCarshowroomSalesModule,
+    AdminCarshowroomServiceManagerModule,
+    AdminBuyerModule,
+    AdminManagerModule,
+    AdminSellerModule,
+    AdminSellerPremiumModule,
+
+
   ],
   controllers: [
     AppController,
@@ -98,6 +131,12 @@ import { UserService } from './user/user.service';
     S3Controller,
     SellerController,
     SellerPremiumController,
+    AdminCarshowroomController,
+    AdminCarshowroomAutoMechanicController,
+    AdminCarshowroomServiceManagerController,
+    AdminManagerController,
+    AdminSellerPremiumController,
+
   ],
   providers: [
     AppService,
@@ -119,6 +158,12 @@ import { UserService } from './user/user.service';
     SellerPremiumService,
     S3Service,
     UserService,
+    AdminCarshowroomService,
+    AdminCarshowroomAutoMechanicService,
+    AdminCarshowroomServiceManagerService,
+    AdminManagerService,
+    AdminSellerPremiumService,
+
   ],
 })
 export class AppModule {}
